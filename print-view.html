@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del prestamo</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title text-center">Detalles del Prestamo</h1>
+                <p><strong>Monto:</strong> Q <span id="loanAmount"></span></p>
+                <p><strong>Plazo:</strong> <span id="loanTerm"></span> meses</p>
+                <p><strong>Interes:</strong> <span id="interestRate"></span>%</p>
+                <p><strong>Total a pagar:</strong> Q <span id="totalAmount"></span></p>
+                <table class="table table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th>Mensual</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTableBody">
+                        <!-- Payment table will be generated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve loan data and payment details from sessionStorage and populate the print view
+        const loanData = JSON.parse(sessionStorage.getItem("loanData"));
+        const paymentDetails = JSON.parse(sessionStorage.getItem("paymentDetails"));
+
+        document.getElementById("loanAmount").textContent = loanData.loanAmount;
+        document.getElementById("loanTerm").textContent = loanData.loanTerm;
+        document.getElementById("interestRate").textContent = loanData.interestRate;
+        document.getElementById("totalAmount").textContent = loanData.totalAmount;
+
+        const paymentTableBody = document.getElementById("paymentTableBody");
+        paymentDetails.forEach((detail) => {
+            const row = paymentTableBody.insertRow();
+            const monthCell = row.insertCell(0);
+            const paymentCell = row.insertCell(1);
+
+            monthCell.innerText = detail.month;
+            paymentCell.innerText = detail.paymentAmount;
+        });
+    </script>
+</body>
+</html>
